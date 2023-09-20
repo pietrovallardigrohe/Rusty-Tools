@@ -27,6 +27,16 @@ pub fn clear_terminal() -> i32 {
     // println!("{:?}", exit_status);
 }
 
+// https://stackoverflow.com/a/55041833
+pub fn trim_newline(s: &mut String) {
+    if s.ends_with('\n') {
+        s.pop();
+        if s.ends_with('\r') {
+            s.pop();
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
