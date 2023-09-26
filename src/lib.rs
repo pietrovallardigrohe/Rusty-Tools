@@ -16,7 +16,7 @@ pub fn clear_terminal() -> i32 {
 
     match exit_code {
         Ok(exit_status) => {
-            println!("{:?}", exit_status.code().expect("Exited by signal"));
+            //println!("{:?}", exit_status.code().expect("Exited by signal"));
             exit_status.code().expect("Exited by signal")
         },
         Err(_) => {
