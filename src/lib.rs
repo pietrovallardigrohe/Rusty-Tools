@@ -1,3 +1,5 @@
+use std::io::Error;
+
 pub fn clear_terminal() -> i32 {
     use std::process::Command;
     let exit_code = if cfg!(windows) {
@@ -6,7 +8,6 @@ pub fn clear_terminal() -> i32 {
             .spawn()
             .expect("cls command failed to start")
             .wait()
-                
     } else {
         Command::new("clear")
             .spawn()
@@ -18,7 +19,7 @@ pub fn clear_terminal() -> i32 {
         Ok(exit_status) => {
             //println!("{:?}", exit_status.code().expect("Exited by signal"));
             exit_status.code().expect("Exited by signal")
-        },
+        }
         Err(_) => {
             println!("failed to wait");
             -1
@@ -45,5 +46,15 @@ mod tests {
     fn clear_terminal_test() {
         assert!(clear_terminal() == 0);
         // assert_eq!(result, 4);
+    }
+}
+
+pub fn get_all_lines(path: &str) -> Result<Vec<String>, Error> {
+    match std::fs::read_to_string(path) {
+        Ok(input_text) => Ok(input_text
+            .lines()
+            .map(|line| String::from(line))
+            .collect::<Vec<String>>()),
+        Err(err) => Err(err),
     }
 }
